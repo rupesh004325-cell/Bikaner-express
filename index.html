@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -59,7 +60,7 @@
         <button class="add-btn" data-name="Bikaneri Bhujia" data-price="100">Cart mein daalein</button>
       </article>
 
-       
+
       <article class="product-card">
         <div class="emoji">🥥</div>
         <h3>Coconut Laddu</h3>
@@ -126,15 +127,24 @@
           Order karein
         </button>
       </form>
+      <div id="trackingStatus" style="display:none; margin-top:15px; padding:15px; background:#fff3df; border-radius:10px;">
+  <h3>📦 आपके ऑर्डर का स्टेटस</h3>
+  <p>Order ID: <span id="trackingOrderId">-</span></p>
+  <p>वर्तमान स्थिति: <strong id="trackingStatusText">ऑर्डर की जानकारी लोड हो रही है...</strong></p>
+</div>
 
       <div id="status" class="status" role="status" aria-live="polite"></div>
     </section>
   </main>
 
+  
+
+
+
   <footer>Bikaner Express • Demo App</footer>
 
 
-<a href="admin.html">Admin Dashboard</a>
+
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
