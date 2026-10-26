@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bikaner Express</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <h1>🛵 Bikaner Express</h1>
+    <p>Mithai aapke paas, jaldi se!</p>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h2>📍 Delivery Location</h2>
+      <p id="locationText">Demo area select karein.</p>
+      <button id="locationBtn" type="button">GPS Location lo</button>
+
+      <h3>GPS nahi chal raha?</h3>
+      <label for="areaSelect">Demo area chunein</label>
+      <select id="areaSelect">
+        <option value="">Area chunein</option>
+        <option value="cp">Connaught Place (Demo)</option>
+        <option value="karol">Karol Bagh (Demo)</option>
+        <option value="dwarka">Dwarka (Demo)</option>
+      </select>
+      <button id="manualLocationBtn" type="button">Area confirm karein</button>
+    </section>
+
+    <h2>🍬 Mithai aur Namkeen</h2>
+    <section class="products">
+      <article class="product-card">
+        <div class="emoji">🍥</div>
+        <h3>Kaju Katli</h3>
+        <p class="price">₹250 / box</p>
+        <button class="add-btn" data-name="Kaju Katli" data-price="250">Cart mein daalein</button>
+      </article>
+
+      <article class="product-card">
+        <div class="emoji">🟠</div>
+        <h3>Gulab Jamun</h3>
+        <p class="price">₹160 / box</p>
+        <button class="add-btn" data-name="Gulab Jamun" data-price="160">Cart mein daalein</button>
+      </article>
+
+      <article class="product-card">
+        <div class="emoji">🟡</div>
+        <h3>Motichoor Laddu</h3>
+        <p class="price">₹200 / box</p>
+        <button class="add-btn" data-name="Motichoor Laddu" data-price="200">Cart mein daalein</button>
+      </article>
+
+      <article class="product-card">
+        <div class="emoji">🥨</div>
+        <h3>Bikaneri Bhujia</h3>
+        <p class="price">₹100 / pack</p>
+        <button class="add-btn" data-name="Bikaneri Bhujia" data-price="100">Cart mein daalein</button>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>🛒 Aapka Cart</h2>
+      <div id="cartItems">Abhi cart khaali hai.</div>
+      <div class="total-row">
+        <strong>Total</strong>
+        <strong id="total">₹0</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>🧾 Customer Details</h2>
+      <p>Order ke liye apni jaankari bharein.</p>
+
+      <form id="customerForm">
+        <label for="customerName">Aapka naam</label>
+        <input id="customerName" type="text"
+          placeholder="Jaise: Rupesh" required minlength="2" maxlength="60">
+
+        <label for="customerPhone">Mobile number</label>
+        <input id="customerPhone" type="tel"
+          placeholder="10 digit mobile number"
+          inputmode="numeric" pattern="[6-9][0-9]{9}"
+          maxlength="10" required>
+        <small>India ka 10 digit mobile number daalein.</small>
+
+        <label for="customerAddress">Poora delivery address</label>
+        <textarea id="customerAddress"
+          placeholder="House number, gali, area, city, PIN code"
+          rows="4" required minlength="8" maxlength="300"></textarea>
+
+        <button id="orderBtn" class="order-btn" type="submit">
+          Order karein
+        </button>
+      </form>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>Bikaner Express • Demo App</footer>
+
+
+<a href="admin.html">Admin Dashboard</a>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="script.js"></script>
+  
+  
+</body>
+</html>
