@@ -1,4 +1,5 @@
 
+
 "use strict";
 
 // Bikaner Express - Firebase Demo
@@ -62,6 +63,11 @@ const locationBtn = document.getElementById("locationBtn");
 const areaSelect = document.getElementById("areaSelect");
 const manualLocationBtn = document.getElementById("manualLocationBtn");
 const customerForm = document.getElementById("customerForm");
+
+const trackingBox = document.getElementById("trackingStatus");
+const trackingOrderId = document.getElementById("trackingOrderId");
+const trackingStatusText = document.getElementById("trackingStatusText");
+
 
 const nameInput = document.getElementById("customerName");
 const phoneInput = document.getElementById("customerPhone");
@@ -332,6 +338,20 @@ customerForm.addEventListener("submit", async event => {
     const orderRef = db.ref("orders/" + currentUser.uid).push();
 
     await orderRef.set(order);
+
+   
+trackingBox.style.display = "block";
+trackingOrderId.textContent = order.id;
+trackingStatusText.textContent = "New";
+
+orderRef.child("status").on("value", snapshot => {
+  const status = snapshot.val();
+
+  if (status) {
+    trackingStatusText.textContent = status;
+  }
+});
+ 
 
     showMessage(
       "✅ Demo Order Firebase mein save ho gaya!\n" +
