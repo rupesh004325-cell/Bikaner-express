@@ -1,0 +1,19 @@
+
+          deliveryList.appendChild(card);
+        });
+
+        deliveryMessage.textContent =
+          "Kul Delivery Boys: " + count +
+          " | Approved: " + approvedDeliveryBoys.length;
+
+      } catch (error) {
+        console.error("Delivery Boys load error:", error);
+
+        deliveryMessage.textContent =
+          "List load nahi hui. Admin login aur Firebase Rules check karein.";
+      }
+    }
+  </script>
+
+</body>
+</html>
