@@ -1,5 +1,4 @@
 
-
 "use strict";
 
 // Bikaner Express - Firebase Demo
@@ -255,6 +254,21 @@ async function startCustomerSession() {
 startCustomerSession();
 
 // Form submit hone par order online bhejo
+
+const paymentMessage = document.getElementById("paymentMessage");
+
+document.querySelectorAll('input[name="paymentMethod"]').forEach(input => {
+  input.addEventListener("change", () => {
+    if (input.checked && paymentMessage) {
+      paymentMessage.textContent =
+        input.value === "COD"
+          ? "आप डिलीवरी के समय भुगतान करेंगे।"
+          : "Razorpay backend तैयार होने पर सुरक्षित ऑनलाइन भुगतान चालू होगा।";
+    }
+  });
+});
+
+// Customer order submit
 customerForm.addEventListener("submit", async event => {
   event.preventDefault();
 
@@ -298,8 +312,28 @@ customerForm.addEventListener("submit", async event => {
     return;
   }
 
+  const selectedPayment = document.querySelector(
+    'input[name="paymentMethod"]:checked'
+  );
+
+  if (!selectedPayment) {
+    showMessage("Payment method chunein.", true);
+    return;
+  }
+
+  // Online payment ko abhi successful nahi maana ja sakta.
+  // Iske liye secure backend aur Razorpay verification zaroori hai.
+  if (selectedPayment.value === "RAZORPAY") {
+    showMessage(
+      "Online payment abhi setup nahi hua hai. Filhaal COD chunein. " +
+      "Razorpay ko secure backend se connect karne ke baad online payment chalega.",
+      true
+    );
+    return;
+  }
+
   if (!currentUser) {
-    showMessage("Firebase login ho raha hai. Thodi der baad try karein.", true);
+    showMessage("Firebase login ho raha hai. Dobara try karein.", true);
     await startCustomerSession();
     return;
   }
@@ -316,8 +350,12 @@ customerForm.addEventListener("submit", async event => {
     0
   );
 
+  const orderRef = db.ref("orders/" + currentUser.uid).push();
+  const orderId = "BE-" + Date.now();
+
   const order = {
-    id: "BE-" + Date.now(),
+    id: orderId,
+    customerUid: currentUser.uid,
     name,
     phone,
     address,
@@ -326,6 +364,8 @@ customerForm.addEventListener("submit", async event => {
     distanceKm: shop.distance.toFixed(2),
     total,
     locationSource,
+    paymentMethod: "COD",
+    paymentStatus: "Pending",
     status: "New",
     createdAt: new Date().toISOString()
   };
@@ -334,40 +374,34 @@ customerForm.addEventListener("submit", async event => {
   submitButton.disabled = true;
 
   try {
-    // Har anonymous customer ka apna folder
-    const orderRef = db.ref("orders/" + currentUser.uid).push();
-
     await orderRef.set(order);
 
-   
-trackingBox.style.display = "block";
-trackingOrderId.textContent = order.id;
-trackingStatusText.textContent = "New";
+    trackingBox.style.display = "block";
+    trackingOrderId.textContent = orderId;
+    trackingStatusText.textContent = "New";
 
-orderRef.child("status").on("value", snapshot => {
-  const status = snapshot.val();
-
-  if (status) {
-    trackingStatusText.textContent = status;
-  }
-});
- 
+    orderRef.child("status").on("value", snapshot => {
+      const status = snapshot.val();
+      if (status) trackingStatusText.textContent = status;
+    });
 
     showMessage(
-      "✅ Demo Order Firebase mein save ho gaya!\n" +
-      "Order ID: " + order.id + "\n" +
+      "✅ COD Order Firebase mein save ho gaya!\n" +
+      "Order ID: " + orderId + "\n" +
       "Total: ₹" + total + "\n" +
-      "Shop: " + shop.name + "\n\n" +
-      "Yeh abhi demo order hai; delivery automatically nahi bheji gayi."
+      "Payment: Cash on Delivery\n" +
+      "Payment Status: Pending\n" +
+      "Shop: " + shop.name
     );
 
-    console.log("Firebase order saved:", order);
+    // Order save hone ke baad cart clear karein.
+    Object.keys(cart).forEach(key => delete cart[key]);
+    renderCart();
 
   } catch (error) {
     console.error("Firebase order save error:", error);
-
     showMessage(
-      "Order save nahi hua. Firebase Database Rules ya login permission check karni hogi.",
+      "Order save nahi hua. Firebase Rules aur login permission check karein.",
       true
     );
   } finally {
