@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -122,6 +121,33 @@
         <textarea id="customerAddress"
           placeholder="House number, gali, area, city, PIN code"
           rows="4" required minlength="8" maxlength="300"></textarea>
+
+<div class="payment-options">
+  <h3>💳 Payment Method</h3>
+
+  <label>
+    <input
+      type="radio"
+      name="paymentMethod"
+      value="COD"
+      checked
+    >
+    Cash on Delivery (घर पर भुगतान)
+  </label>
+
+  <label>
+    <input
+      type="radio"
+      name="paymentMethod"
+      value="RAZORPAY"
+    >
+    Online Payment (Razorpay)
+  </label>
+
+  <p id="paymentMessage" role="status">
+    आप डिलीवरी के समय भुगतान करेंगे।
+  </p>
+</div>
 
         <button id="orderBtn" class="order-btn" type="submit">
           Order karein
